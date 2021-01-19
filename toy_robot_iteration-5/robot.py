@@ -6,15 +6,14 @@ import itertools
 import world.text.world
 
 
-module_to_use = False
+module_to_use = True
 mazerun_mode = False
 counter = 0
 
 
 if len(sys.argv) > 1 and sys.argv[1] == "turtle":
     import world.turtle.world
-    print('fucken shit')
-    module_to_use = True
+    module_to_use = False
     mode = 'turtle'
     counter = 0
 
@@ -48,7 +47,7 @@ def get_command(robot_name):
     command = input(prompt)
     while len(command) == 0 or not valid_command(command):
         world.text.world.output(
-            robot_name, "Sorry, I did not understand '"+command+"'.") if module_to_use is False else world.turtle.world.output(
+            robot_name, "Sorry, I did not understand '"+command+"'.") if module_to_use else world.turtle.world.output(
             robot_name, "Sorry, I did not understand '"+command+"'.")
         command = input(prompt)
 
@@ -111,7 +110,7 @@ def do_help():
     Provides help information to the user
     :return: (True, help text) to indicate robot can continue after this command was handled
     """
-    return True, world.text.world.help() if module_to_use is False else world.turtle.world.help()
+    return True, world.text.world.help() if module_to_use else world.turtle.world.help()
 
 
 def do_sprint(robot_name, steps):
@@ -123,10 +122,10 @@ def do_sprint(robot_name, steps):
     """
 
     if steps == 1:
-        return world.text.world.do_forward(robot_name, 1) if module_to_use == False else world.turtle.world.do_forward(robot_name, 1)
+        return world.text.world.do_forward(robot_name, 1) if module_to_use else world.turtle.world.do_forward(robot_name, 1)
     else:
         (do_next, command_output) = world.text.world.do_forward(robot_name,
-                                                                steps) if module_to_use is False else world.turtle.world.do_forward(robot_name, steps)
+                                                                steps) if module_to_use else world.turtle.world.do_forward(robot_name, steps)
         print(command_output)
         return do_sprint(robot_name, steps - 1)
 
@@ -140,27 +139,27 @@ def left():
 
     global counter
 
-    x = world.text.world.position_x if module_to_use is False else world.turtle.world.position_x
-    y = world.text.world.position_y if module_to_use is False else world.turtle.world.position_y
+    x = world.text.world.position_x if module_to_use else world.turtle.world.position_x
+    y = world.text.world.position_y if module_to_use else world.turtle.world.position_y
 
-    if (world.text.world.obstacles.is_path_blocked(x, y, x, y-20) is False and world.text.world.obstacles.is_path_blocked(x, y, x+20, y) is False and world.text.world.obstacles.is_path_blocked(x, y, x, y+20) is False and world.text.world.obstacles.is_path_blocked(x, y, x, y-20) is False if module_to_use is False else world.turtle.world.obstacles.is_path_blocked(x, y, x-20, y) is False and world.turtle.world.obstacles.is_path_blocked(x, y, x+20, y) is False and world.turtle.world.obstacles.is_path_blocked(x, y, x, y+20) is False and world.turtle.world.obstacles.is_path_blocked(x, y, x, y-20) is False):
-        if (world.text.world.obstacles.is_path_blocked(x, y, x, y-20) is False if module_to_use is False else world.turtle.world.obstacles.is_path_blocked(x, y, x, y-20) is False):
+    if (world.text.world.obstacles.is_path_blocked(x, y, x, y-20) is False and world.text.world.obstacles.is_path_blocked(x, y, x+20, y) is False and world.text.world.obstacles.is_path_blocked(x, y, x, y+20) is False and world.text.world.obstacles.is_path_blocked(x, y, x, y-20) is False if module_to_use else world.turtle.world.obstacles.is_path_blocked(x, y, x-20, y) is False and world.turtle.world.obstacles.is_path_blocked(x, y, x+20, y) is False and world.turtle.world.obstacles.is_path_blocked(x, y, x, y+20) is False and world.turtle.world.obstacles.is_path_blocked(x, y, x, y-20) is False):
+        if (world.text.world.obstacles.is_path_blocked(x, y, x, y-20) is False if module_to_use else world.turtle.world.obstacles.is_path_blocked(x, y, x, y-20) is False):
             return False
 
     if counter == 0:
-        if (world.text.world.obstacles.is_path_blocked(x, y, x-20, y) if module_to_use is False else world.turtle.world.obstacles.is_path_blocked(x, y, x-20, y)) or ((world.text.world.is_position_allowed(x-20, y) is False) if module_to_use is False else (world.turtle.world.is_position_allowed(x-20, y) is False)):
+        if (world.text.world.obstacles.is_path_blocked(x, y, x-20, y) if module_to_use else world.turtle.world.obstacles.is_path_blocked(x, y, x-20, y)) or ((world.text.world.is_position_allowed(x-20, y) is False) if module_to_use else (world.turtle.world.is_position_allowed(x-20, y) is False)):
             return False
 
     if counter == 3:
-        if (world.text.world.obstacles.is_path_blocked(x, y, x, y+20) if module_to_use is False else world.turtle.world.obstacles.is_path_blocked(x, y, x, y+20)) or ((world.text.world.is_position_allowed(x, y+20) is False) if module_to_use is False else (world.turtle.world.is_position_allowed(x, y+20) is False)):
+        if (world.text.world.obstacles.is_path_blocked(x, y, x, y+20) if module_to_use else world.turtle.world.obstacles.is_path_blocked(x, y, x, y+20)) or ((world.text.world.is_position_allowed(x, y+20) is False) if module_to_use else (world.turtle.world.is_position_allowed(x, y+20) is False)):
             return False
 
     if counter == 2:
-        if (world.text.world.obstacles.is_path_blocked(x, y, x+20, y) if module_to_use is False else world.turtle.world.obstacles.is_path_blocked(x, y, x+20, y)) or ((world.text.world.is_position_allowed(x+20, y) is False) if module_to_use is False else (world.turtle.world.is_position_allowed(x+20, y) is False)):
+        if (world.text.world.obstacles.is_path_blocked(x, y, x+20, y) if module_to_use else world.turtle.world.obstacles.is_path_blocked(x, y, x+20, y)) or ((world.text.world.is_position_allowed(x+20, y) is False) if module_to_use else (world.turtle.world.is_position_allowed(x+20, y) is False)):
             return False
 
     if counter == 1:
-        if (world.text.world.obstacles.is_path_blocked(x, y, x, y-20) if module_to_use is False else world.turtle.world.obstacles.is_path_blocked(x, y, x, y-20)) or ((world.text.world.is_position_allowed(x, y-20) is False) if module_to_use is False else (world.turtle.world.is_position_allowed(x, y-20) is False)):
+        if (world.text.world.obstacles.is_path_blocked(x, y, x, y-20) if module_to_use else world.turtle.world.obstacles.is_path_blocked(x, y, x, y-20)) or ((world.text.world.is_position_allowed(x, y-20) is False) if module_to_use else (world.turtle.world.is_position_allowed(x, y-20) is False)):
             return False
     return True
 
@@ -174,23 +173,23 @@ def forward():
 
     global counter
 
-    x = world.text.world.position_x if module_to_use is False else world.turtle.world.position_x
-    y = world.text.world.position_y if module_to_use is False else world.turtle.world.position_y
+    x = world.text.world.position_x if module_to_use else world.turtle.world.position_x
+    y = world.text.world.position_y if module_to_use else world.turtle.world.position_y
 
     if counter == 0:
-        if (world.text.world.obstacles.is_path_blocked(x, y, x, y+20) if module_to_use is False else world.turtle.world.obstacles.is_path_blocked(x, y, x, y+20)) or ((world.text.world.is_position_allowed(x, y+20) is False) if module_to_use is False else (world.turtle.world.is_position_allowed(x, y+20) is False)):
+        if (world.text.world.obstacles.is_path_blocked(x, y, x, y+20) if module_to_use else world.turtle.world.obstacles.is_path_blocked(x, y, x, y+20)) or ((world.text.world.is_position_allowed(x, y+20) is False) if module_to_use else (world.turtle.world.is_position_allowed(x, y+20) is False)):
             return False
 
     if counter == 1:
-        if (world.text.world.obstacles.is_path_blocked(x, y, x-20, y) if module_to_use is False else world.turtle.world.obstacles.is_path_blocked(x, y, x-20, y)) or (world.text.world.is_position_allowed(x-20, y) is False if module_to_use is False else world.turtle.world.is_position_allowed(x-20, y) is False):
+        if (world.text.world.obstacles.is_path_blocked(x, y, x-20, y) if module_to_use else world.turtle.world.obstacles.is_path_blocked(x, y, x-20, y)) or (world.text.world.is_position_allowed(x-20, y) is False if module_to_use else world.turtle.world.is_position_allowed(x-20, y) is False):
             return False
 
     if counter == 2:
-        if (world.text.world.obstacles.is_path_blocked(x, y, x, y-20) if module_to_use is False else world.turtle.world.obstacles.is_path_blocked(x, y, x, y-20)) or (world.text.world.is_position_allowed(x, y-20) is False if module_to_use is False else world.turtle.world.is_position_allowed(x, y-20) is False):
+        if (world.text.world.obstacles.is_path_blocked(x, y, x, y-20) if module_to_use else world.turtle.world.obstacles.is_path_blocked(x, y, x, y-20)) or (world.text.world.is_position_allowed(x, y-20) is False if module_to_use else world.turtle.world.is_position_allowed(x, y-20) is False):
             return False
 
     if counter == 3:
-        if (world.text.world.obstacles.is_path_blocked(x, y, x+20, y) if module_to_use is False else world.turtle.world.obstacles.is_path_blocked(x, y, x+20, y)) or (world.text.world.is_position_allowed(x+20, y) is False if module_to_use is False else world.turtle.world.is_position_allowed(x+20, y) is False):
+        if (world.text.world.obstacles.is_path_blocked(x, y, x+20, y) if module_to_use else world.turtle.world.obstacles.is_path_blocked(x, y, x+20, y)) or (world.text.world.is_position_allowed(x+20, y) is False if module_to_use else world.turtle.world.is_position_allowed(x+20, y) is False):
             return False
     return True
 
@@ -211,7 +210,7 @@ def maze_runner(robot, arg):
     if arg.lower().strip() == "top" or arg.lower().strip() == "":
         # solve the maze to the top edge.
         for x in itertools.repeat(1):
-            if (world.text.world.position_y == 200 if module_to_use is False else world.turtle.world.position_y == 200):
+            if (world.text.world.position_y == 200 if module_to_use else world.turtle.world.position_y == 200):
                 break
             if left():
                 handle_command(robot, "left")
@@ -241,7 +240,7 @@ def bottom_edge(robot, arg):
     '''
 
     for x in itertools.repeat(1):
-        if (world.text.world.position_y == -200 if module_to_use is False else world.turtle.world.position_y == -200):
+        if (world.text.world.position_y == -200 if module_to_use else world.turtle.world.position_y == -200):
             return True, " > " + robot+" I am at the "+arg+" edge."
         if left():
             handle_command(robot, "left")
@@ -258,7 +257,7 @@ def right_edge(robot, arg):
     '''
 
     for x in itertools.repeat(1):
-        if (world.text.world.position_x == 100 if module_to_use is False else world.turtle.world.position_x == 100):
+        if (world.text.world.position_x == 100 if module_to_use else world.turtle.world.position_x == 100):
             return True, " > " + robot+" I am at the "+arg+" edge."
         if left():
             handle_command(robot, "left")
@@ -275,7 +274,7 @@ def left_edge(robot, arg):
     '''
 
     for x in itertools.repeat(1):
-        if (world.text.world.position_x == -100 if module_to_use is False else world.turtle.world.position_x == -100):
+        if (world.text.world.position_x == -100 if module_to_use else world.turtle.world.position_x == -100):
             return True, " > " + robot+" I am at the "+arg+" edge."
         if left():
             handle_command(robot, "left")
@@ -340,7 +339,7 @@ def do_replay(robot_name, arguments):
         if not silent:
             print(command_output)
             world.text.world.show_position(
-                robot_name) if module_to_use is False else world.turtle.world.show_position(robot_name)
+                robot_name) if module_to_use else world.turtle.world.show_position(robot_name)
 
     return True, ' > '+robot_name+' replayed ' + str(len(commands_to_replay)) + ' commands' + (' in reverse' if reverse else '') + (' silently.' if silent else '.')
 
@@ -353,20 +352,20 @@ def call_command(command_name, command_arg, robot_name):
     if command_name == 'help':
         return do_help()
     elif command_name == 'forward':
-        return world.text.world.do_forward(robot_name, int(command_arg)) if module_to_use is False else world.turtle.world.do_forward(robot_name, int(command_arg))
+        return world.text.world.do_forward(robot_name, int(command_arg)) if module_to_use else world.turtle.world.do_forward(robot_name, int(command_arg))
     elif command_name == 'back':
-        return world.text.world.do_back(robot_name, int(command_arg)) if module_to_use is False else world.turtle.world.do_back(robot_name, int(command_arg))
+        return world.text.world.do_back(robot_name, int(command_arg)) if module_to_use else world.turtle.world.do_back(robot_name, int(command_arg))
     elif command_name == 'right':
         if counter == 0:
             counter = 3
         else:
             counter -= 1
-        return world.text.world.do_right_turn(robot_name) if module_to_use is False else world.turtle.world.do_right_turn(robot_name)
+        return world.text.world.do_right_turn(robot_name) if module_to_use else world.turtle.world.do_right_turn(robot_name)
     elif command_name == 'left':
         counter += 1
         if counter == 4:
             counter = 0
-        return world.text.world.do_left_turn(robot_name) if module_to_use is False else world.turtle.world.do_left_turn(robot_name)
+        return world.text.world.do_left_turn(robot_name) if module_to_use else world.turtle.world.do_left_turn(robot_name)
     elif command_name == 'sprint':
         return do_sprint(robot_name, int(command_arg))
     elif command_name == 'replay':
@@ -395,7 +394,7 @@ def handle_command(robot_name, command):
 
     print(command_output)
     world.text.world.show_position(
-        robot_name) if module_to_use is False else world.turtle.world.show_position(robot_name)
+        robot_name) if module_to_use else world.turtle.world.show_position(robot_name)
     if mazerun_mode:
         pass
     else:
@@ -419,11 +418,11 @@ def robot_start():
 
     robot_name = get_robot_name()
 
-    world.text.world.output(robot_name, "Hello kiddo!")if module_to_use is False else world.turtle.world.output(
+    world.text.world.output(robot_name, "Hello kiddo!")if module_to_use else world.turtle.world.output(
         robot_name, "Hello kiddo!")
 
     world.text.world.obstacles_positions(
-        robot_name) if module_to_use is False else ""
+        robot_name) if module_to_use else ""
 
     world.text.world.position_x = 0
     world.text.world.position_y = 0
@@ -434,7 +433,7 @@ def robot_start():
     while handle_command(robot_name, command):
         command = get_command(robot_name)
 
-    world.text.world.output(robot_name, "Shutting down..") if module_to_use is False else world.turtle.world.output(
+    world.text.world.output(robot_name, "Shutting down..") if module_to_use else world.turtle.world.output(
         robot_name, "Shutting down..")
 
 
